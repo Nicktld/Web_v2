@@ -1,5 +1,4 @@
 import logging 
-
 logging.basicConfig(level = logging.INFO)
 
 import asyncio, os, json, time
@@ -21,7 +20,10 @@ def main():
 
     loop = asyncio.get_event_loop()
     loop.run_until_complete(init(loop))
-    loop.run_forever()
+    try:
+        loop.run_forever()
+    except KeyboardInterrupt:
+        logging.info('Server has been stopped!')
 
 if __name__ == '__main__':
     main()
