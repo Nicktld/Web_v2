@@ -5,7 +5,7 @@
 Models for user, blog, comment.
 '''
 
-__author__ = 'Michael Liao'
+__author__ = 'Ledong Tang'
 
 import time, uuid
 
@@ -17,7 +17,7 @@ def next_id():
 class User(Model):
     __table__ = 'users'
 
-    id = StringField(primary_key=True, default=next_id, ddl='varchar(50)')
+    id = StringField(ddl='varchar(50)', primary_key=True, default=next_id)
     email = StringField(ddl='varchar(50)')
     passwd = StringField(ddl='varchar(50)')
     admin = BooleanField()
@@ -28,7 +28,7 @@ class User(Model):
 class Blog(Model):
     __table__ = 'blogs'
 
-    id = StringField(primary_key=True, default=next_id, ddl='varchar(50)')
+    id = StringField(ddl='varchar(50)', primary_key=True, default=next_id)
     user_id = StringField(ddl='varchar(50)')
     user_name = StringField(ddl='varchar(50)')
     user_image = StringField(ddl='varchar(500)')
@@ -40,7 +40,7 @@ class Blog(Model):
 class Comment(Model):
     __table__ = 'comments'
 
-    id = StringField(primary_key=True, default=next_id, ddl='varchar(50)')
+    id = StringField(ddl='varchar(50)', primary_key=True, default=next_id)
     blog_id = StringField(ddl='varchar(50)')
     user_id = StringField(ddl='varchar(50)')
     user_name = StringField(ddl='varchar(50)')

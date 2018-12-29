@@ -61,7 +61,7 @@ def create_args_string(num):
     return ', '.join(L)
 
 class Field(object):
-
+    """This class describes all features of a column. Based on it, we can generate subclassed for different columns in database."""
     def __init__(self, name, column_type, primary_key, default):
         self.name = name
         self.column_type = column_type
@@ -73,7 +73,7 @@ class Field(object):
 
 class StringField(Field):
 
-    def __init__(self, name=None, primary_key=False, default=None, ddl='varchar(100)'):
+    def __init__(self, name=None, ddl='varchar(100)', primary_key=False, default=None):
         super().__init__(name, ddl, primary_key, default)
 
 class BooleanField(Field):
