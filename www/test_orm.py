@@ -19,4 +19,4 @@ async def test2():
 
     await orm.close_pool()
 loop = asyncio.get_event_loop()
-loop.run_until_complete(test2())
+loop.run_until_complete(test())

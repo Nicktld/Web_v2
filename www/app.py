@@ -127,6 +127,7 @@ def main():
         loop.run_forever()
     except KeyboardInterrupt:
         logging.info('Server has been stopped!')
+        pass
 
 if __name__ == '__main__':
     main()
