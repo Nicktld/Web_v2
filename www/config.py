@@ -5,7 +5,7 @@
 Configuration
 '''
 
-__author__ = 'Michael Liao'
+__author__ = 'Leon Tang'
 
 import config_default
 
@@ -51,6 +51,7 @@ try:
     import config_override
     configs = merge(configs, config_override.configs)
 except ImportError:
-    pass
+   print('config_overide file not found! Using config_default right now...') 
+   pass
 
 configs = toDict(configs)
