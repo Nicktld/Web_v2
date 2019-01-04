@@ -6,6 +6,8 @@
 async web application.
 '''
 
+__author__ = 'Ledong Tang'
+
 import logging; logging.basicConfig(level=logging.INFO)
 
 import asyncio, os, json, time
