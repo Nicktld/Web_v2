@@ -154,7 +154,7 @@ def signout(request):
 
 @get('/manage/') # vs '/manage'
 def manage():
-    return 'redirect:/manage/commets'
+    return 'redirect:/manage/comments'
 
 @get('/manage/comments')
 def manage_comments(*, page='1'):
@@ -200,7 +200,7 @@ async def api_comments(*, page='1'):
     p = Page(num, page_index)
     if num == 0:
         return dict(page=p, comments=())
-    comments = await Comment.findNumber(orderBy='created_at desc', limit=(p.offset, p.limit))
+    comments = await Comment.findAll(orderBy='created_at desc', limit=(p.offset, p.limit))
     return dict(page=p, comments=comments)
 
 @post('/api/blogs/{id}/comments')
@@ -269,7 +269,7 @@ async def api_blogs(*, page='1'):
     p = Page(num, page_index)
     if num == 0:
         return dict(page=p, blogs=())
-    blogs = await Blog.findAll(orderBy='create_at desc', limit=(p.offset, p.limit))
+    blogs = await Blog.findAll(orderBy='created_at desc', limit=(p.offset, p.limit))
     return dict(page=p, blogs=blogs)
 
 @get('/api/blogs/{id}')
