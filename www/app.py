@@ -144,10 +144,13 @@ async def init(loop):
 
 def main():
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(init(loop))
+    loop.run_until_complete(init(loop))# run init() program and return a Server object 
     try:
-        loop.run_forever()
+        loop.run_forever()# loop the Server object forever (listening to the port) 
     except KeyboardInterrupt:
+        for task in asyncio.Task.all_tasks():
+            task.cancel()
+        loop.stop()
         loop.run_until_complete(orm.close_pool())
         logging.info('Server has been stopped!')
         loop.close()
