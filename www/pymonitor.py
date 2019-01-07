@@ -5,6 +5,7 @@ __author__ = 'Ledong Tang'
 
 import os, sys, time, subprocess
 
+import orm
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 

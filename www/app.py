@@ -148,8 +148,9 @@ def main():
     try:
         loop.run_forever()
     except KeyboardInterrupt:
+        loop.run_until_complete(orm.close_pool())
         logging.info('Server has been stopped!')
-        pass
+        loop.close()
 
 if __name__ == '__main__':
     main()
