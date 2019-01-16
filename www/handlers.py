@@ -80,16 +80,18 @@ async def all_users(request):
 ############################
 
 @get('/')
-async def index(request):
-    summary = 'No pains, no gains. With talents, great success!'
-    blogs = [
-        Blog(id='1', name='Test Blog', summary=summary, created_at=time.time()-120),
-        Blog(id='2', name='Something New', summary=summary, created_at=time.time()-3600),
-        Blog(id='3', name='Learn Swift', summary=summary, created_at=time.time()-7200)
-        ]
+async def index(*, page='1'):
+    page_index = get_page_index(page)
+    num = await Blog.findNumber('count(id)')
+    p= Page(num)
+    if num == 0:
+        blogs = []
+    else:
+        blogs = await Blog.findAll(orderBy='created_at desc', limit=(p.offset, p.limit))
     return {
         '__template__': 'blogs.html',
-        'blogs': blogs,
+        'page': p,
+        'blogs': blogs
         # '__user__': request.__user__
         # The statement above only remains the logged-in status on the index. We should render __user__ at the middlewares so that users can stay logged in every page.
     }
@@ -151,6 +153,18 @@ def signout(request):
     logging.info('user singed out.')
     return r
 
+'''
+Management Pages:
+
+    Comments Page: GET /manage/comments
+    Users Page: GET /manage/users
+    Blogs Page: GET /manage/blogs
+    Blog-Create Page: GET /manage/blogs/create
+    Blog-Edit Page: GET /manage/blogs/edit
+
+'''
+####################
+####################
 
 @get('/manage/') # vs '/manage'
 def manage():
@@ -192,6 +206,9 @@ def manage_edit_blog(*, id):
         'id': id,
         'action': '/api/blogs/%s' % id
     }
+####################
+####################
+
 
 @get('/api/comments')
 async def api_comments(*, page='1'):
@@ -233,7 +250,7 @@ async def api_get_users(*, page='1'):
     p = Page(num, page_index)
     if num == 0:
         return dict(page=p, users=())
-    users = await User.findAll(orderBy='created_at desc')
+    users = await User.findAll(orderBy='created_at desc', limit=(p.offset, p.limit))
     for u in users:
         u.passwd = '******'
     return dict(page=p, users=users)
