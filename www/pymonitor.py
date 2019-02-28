@@ -22,6 +22,9 @@ class MyFileSystemEventHandler(FileSystemEventHandler):
         if event.src_path.endswith('.py'):
             log('Python source file changed: %s' % event.src_path)
             self.restart()
+        if event.src_path.endswith('.html'):
+            log('HTML file changed: %s' % event.src_path)
+            self.restart()
 
 command = ['echo', 'ok']
 process = None
