@@ -1,104 +1,68 @@
 <!DOCTYPE html>
-<!-- Pagnination Navigation -->
-{% macro pagination(page) %}
-    <ul class="uk-pagination uk-flex-center uk-margin-medium-top uk-margin-large-bottom">
-
-	<!-- Previous Page -->
+<!--
+{% macro pagination(url, page) %}
+    <ul class="uk-pagination">
         {% if page.has_previous %}
-            <li><a href="?page={{ page.page_index - 1 }}"><span uk-pagination-previous></span></a></li>
+            <li><a href="{{ url }}{{ page.page_index - 1 }}"><i class="uk-icon-angle-double-left"></i></a></li>
         {% else %}
-            <li class="uk-disabled"></li>
+            <li class="uk-disabled"><span><i class="uk-icon-angle-double-left"></i></span></li>
         {% endif %}
-
-	<!-- Current Page -->
             <li class="uk-active"><span>{{ page.page_index }}</span></li>
-        
-	<!-- Next Page -->
-	{% if page.has_next %}
-            <li><a href="?page={{ page.page_index + 1 }}"><span uk-pagination-next></span></a></li>
+        {% if page.has_next %}
+            <li><a href="{{ url }}{{ page.page_index + 1 }}"><i class="uk-icon-angle-double-right"></i></a></li>
         {% else %}
-            <li class="uk-disabled"></li>
+            <li class="uk-disabled"><span><i class="uk-icon-angle-double-right"></i></span></li>
         {% endif %}
     </ul>
 {% endmacro %}
-
+-->
 <html>
 <head>
     <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="viewport" content="width=device-width, initial-scale=0.9, minimum-scale=0.9, maximum-scale=0.9, user-scalable=no">
-    <meta name="wap-font-scale" content="no">
-    
-    <!-- jinja2 meta -->
     {% block meta %}<!-- block meta  -->{% endblock %}
-    
-    <!-- jinja2 title -->
-    <title>{% block title %} ? {% endblock %}| LeonBlog</title>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.3/js/uikit.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.3/js/uikit-icons.min.js"></script>
-    
+    <title>{% block title %} ? {% endblock %} - Leon's Blogs</title>
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="stylesheet" href="/static/css/uikit.min.css" />
+    <link rel="stylesheet" href="/static/css/uikit.gradient.min.css" />
     <link rel="stylesheet" href="/static/css/awesome.css" />
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/sha1.min.js"></script>
+    <script src="/static/js/uikit.min.js"></script>
     <script src="/static/js/sticky.min.js"></script>
     <script src="/static/js/vue.min.js"></script>
     <script src="/static/js/awesome.js"></script>
-    
-    <!-- jinja2 beforehead -->
     {% block beforehead %}<!-- before head  -->{% endblock %}
 </head>
-
-
 <body>
-    <div class="uk-margin uk-visible@m" style="background-color: #e8e8ff; border-top:1px solid #ccc; border-bottom:1px solid #ccc;">
-    <div class="uk-container uk-container-medium">
-
-    <nav class="uk-navbar-container" uk-navbar>
-        <div class="uk-navbar-left uk-margin-medium-top uk-margin-medium-bottom">
-            <a href="/" class="uk-navbar-item uk-logo uk-margin-left">Leon</a>
+    <nav class="uk-navbar uk-navbar-attached uk-margin-bottom">
+        <div class="uk-container uk-container-center">
+            <a href="/" class="uk-navbar-brand">Home</a>
             <ul class="uk-navbar-nav">
-                <li><a href="/">
-                    <span class="uk-margin-small-right" uk-icon="icon: home"></span>
-                    Blogs</a></li>
-                <li><a target="_blank" href="https://github.com/Nicktld/web_v2">
-                    <span class="uk-margin-small-right" uk-icon="icon: code"></span>
-                    Sources</a></li>
+                <li data-url="blogs"><a href="/"><i class="uk-icon-home"></i> Blogs</a></li>
+                <li><a target="_blank" href="https://github.com/Nicktld/web_v2"><i class="uk-icon-code"></i> Sources</a></li>
             </ul>
-        </div>
-        <div class="uk-navbar-right uk-margin-medium-top uk-margin-meduim-bottom">
-            <ul class="uk-navbar-nav">
-            {% if __user__ %}
-                <li>
-                    <a href="#0"><span class="uk-margin-small-right" uk-icon="icon: user"></span>
-                        {{ __user__.name }}</a>
-                    <div class="uk-navbar-dropdown">
-                        <ul class="uk-nav uk-navbar-dropdown-nav">
-                            <li><a href="/signout">
-                                <span class="uk-margin-small-right" uk-icon="icon: sign-out"></span>
-                                Signout</a></li>
-                            {% if __user__.admin %}
-                                <li><a href="/manage/">
-                                    <span class="uk-margin-small-right" uk-icon="icon: menu"></span>
-                                    Manage</a></li>
-                            {% endif %}
-                        </ul>
-                    </div>
-                </li>
-            {% else %}
-                <li><a href="/signin"><span class="uk-margin-small-right" uk-icon="icon: sign-in"></span>
-                    Signin</a></li>
-                <li><a href="/register"><span class="uk-margin-small-right" uk-icon="icon: file-edit"></span>
-                    Register</a></li>
-            {% endif %}
-            </ul>
+            <div class="uk-navbar-flip">
+                <ul class="uk-navbar-nav">
+                {% if __user__ %}
+                    <li class="uk-parent" data-uk-dropdown>
+                        <a href="#0"><i class="uk-icon-user"></i> {{ __user__.name }}</a>
+                        <div class="uk-dropdown uk-dropdown-navbar">
+                            <ul class="uk-nav uk-nav-navbar">
+                                <li><a href="/signout"><i class="uk-icon-sign-out"></i> Signout</a></li>
+                                {% if __user__.admin %}
+                                    <li><a href="/manage/"><i class="uk-icon-cog"></i> Manage</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </li>
+                {% else %}
+                    <li><a href="/signin"><i class="uk-icon-sign-in"></i> Signin</a></li>
+                    <li><a href="/register"><i class="uk-icon-edit"></i> Register</a></li>
+                {% endif %}
+                </ul>
+            </div>
         </div>
     </nav>
-    </div>
-    </div>
 
     <div class="uk-container uk-container-center">
         <div class="uk-grid">
