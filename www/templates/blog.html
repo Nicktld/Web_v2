@@ -4,6 +4,7 @@
 
 {% block beforehead %}
 
+
 <script>
 
 var comment_url = '/api/blogs/{{ blog.id }}/comments';
@@ -34,7 +35,13 @@ $(function () {
     <div class="uk-width-medium-3-4">
         <article class="uk-article">
             <h2>{{ blog.name }}</h2>
-            <p class="uk-article-meta">Posted at {{ blog.created_at|datetime }}</p>
+            <p class="uk-article-meta">Posted at {{ blog.created_at|datetime }}
+	    	{% if __user__ %}
+		    {% if __user__.admin %}
+		        <a href="/manage/blogs/edit?id={{ blog.id }}"><i class="uk-icon-edit"></i></a>
+		    {% endif %}
+		{% endif %}
+	    </p>
             <p>{{ blog.html_content|safe }}</p>
         </article>
 
