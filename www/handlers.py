@@ -6,7 +6,7 @@ __author__ = 'Leon Tang'
 ' url handlers '
 
 import re, time, logging, hashlib, base64, asyncio, json
-import markdown2
+import markdown
 from aiohttp import web
 from apis import APIValueError, APIResourceNotFoundError, APIPermissionError, Page
 from config import configs
@@ -101,7 +101,7 @@ async def get_blog(id):
     comments = await Comment.findAll('blog_id=?', [id], orderBy='created_at desc')
     for c in comments:
         c.html_content = text2html(c.content)
-    blog.html_content = markdown2.markdown(blog.content)
+    blog.html_content = markdown.markdown(blog.content)
     return {
         '__template__': 'blog.html',
         'blog': blog,
