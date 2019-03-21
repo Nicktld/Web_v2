@@ -16,6 +16,7 @@ from models import User, Blog, Comment, next_id
 COOKIE_NAME = 'webv2'
 _COOKIE_KEY = configs.session.secret
 
+exts = ['markdown.extensions.extra', 'markdown.extensions.codehilite', 'markdown.extensions.tables', 'markdown.extensions.toc']
 def check_admin(request):
     if request.__user__ is None or not request.__user__.admin:
         raise APIPermissionError('Permission Denied! Please login as an administrator')
@@ -101,7 +102,7 @@ async def get_blog(id):
     comments = await Comment.findAll('blog_id=?', [id], orderBy='created_at desc')
     for c in comments:
         c.html_content = text2html(c.content)
-    blog.html_content = markdown.markdown(blog.content)
+    blog.html_content = markdown.markdown(blog.content, extensions=exts)
     return {
         '__template__': 'blog.html',
         'blog': blog,
