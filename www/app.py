@@ -120,13 +120,13 @@ async def auth_factory(app, handler):
 def datetime_filter(t):
     delta = int(time.time() - t)
     if delta < 60:
-        return u'1min before'
+        return u'1min ago'
     if delta < 3600:
-        return u'%smin before' % (delta // 60)
+        return u'%smin ago' % (delta // 60)
     if delta < 86400:
-        return u'%sh before' % (delta // 3600)
+        return u'%sh ago' % (delta // 3600)
     if delta < 604800:
-        return u'%sd before' % (delta // 86400)
+        return u'%sd ago' % (delta // 86400)
     dt = datetime.fromtimestamp(t)
     return u'%s.%s.%s' % (dt.month, dt.day, dt.year)
 
