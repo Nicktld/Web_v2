@@ -96,6 +96,13 @@ async def index(*, page='1'):
         # '__user__': request.__user__
         # The statement above only remains the logged-in status on the index. We should render __user__ at the middlewares so that users can stay logged in every page.
     }
+
+@get('/dash')
+async def dashplot():
+    return {
+            '__template__': 'dash.html'
+    }
+
 @get('/blog/{id}')
 async def get_blog(id):
     blog = await Blog.find(id)
